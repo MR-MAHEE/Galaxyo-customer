@@ -40,41 +40,16 @@ const Menu = () => {
 
   return (
     <BottomNavLayout>
-      <div
-        style={{ background: "#eaf2fb", minHeight: "100vh", paddingBottom: 90 }}
-      >
+      <div className="bg-[#eaf2fb] min-h-screen pb-[90px]">
         {/* Search Bar */}
-        <div
-          style={{
-            padding: "32px 0 16px 0",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: 30,
-              boxShadow: "0 1px 6px #0001",
-              display: "flex",
-              alignItems: "center",
-              width: 340,
-              height: 46,
-              padding: "0 20px",
-            }}
-          >
+        <div className="flex justify-center pt-8 pb-4">
+          <div className="flex items-center w-[340px] h-[46px] bg-white rounded-full shadow px-5">
             <input
               type="text"
               placeholder="Search item"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{
-                border: "none",
-                outline: "none",
-                background: "transparent",
-                fontSize: 16,
-                flex: 1,
-              }}
+              className="border-none outline-none bg-transparent text-base flex-1"
             />
             <svg
               width="20"
@@ -92,97 +67,35 @@ const Menu = () => {
         </div>
 
         {/* Categories */}
-        <div
-          style={{
-            marginLeft: 24,
-            marginTop: 8,
-            fontWeight: 600,
-            fontSize: 20,
-            color: "#444",
-          }}
-        >
+        <div className="ml-6 mt-2 font-semibold text-[20px] text-[#444]">
           Choose Categories
         </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 20,
-            padding: "20px 24px 120px 24px",
-          }}
-        >
+        <div className="grid grid-cols-3 gap-5 px-6 pt-5 pb-[120px]">
           {loading ? (
-            <div
-              style={{
-                gridColumn: "1 / -1",
-                textAlign: "center",
-                padding: "40px 0",
-              }}
-            >
+            <div className="col-span-3 text-center py-10">
               <Spin size="large" />
             </div>
           ) : !categories || categories.length === 0 ? (
-            <div
-              style={{
-                gridColumn: "1 / -1",
-                textAlign: "center",
-                color: "#888",
-                padding: "40px 0",
-              }}
-            >
+            <div className="col-span-3 text-center text-gray-500 py-10">
               <Empty description="No categories found" />
             </div>
           ) : filteredCategories.length === 0 ? (
-            <div
-              style={{
-                gridColumn: "1 / -1",
-                textAlign: "center",
-                color: "#888",
-                padding: "40px 0",
-              }}
-            >
+            <div className="col-span-3 text-center text-gray-500 py-10">
               <Empty description="No categories found" />
             </div>
           ) : (
             filteredCategories.map((cat: any, i: number) => (
               <div
                 key={cat.id || i}
-                style={{
-                  background: "#fff",
-                  borderRadius: 16,
-                  boxShadow: "0 1px 8px #0001",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  padding: 10,
-                  minHeight: 120,
-                }}
+                className="bg-white rounded-xl shadow flex flex-col items-center p-2.5 min-h-[120px]"
               >
                 <img
-                  src={
-                    cat?.img || cat?.image || "https://via.placeholder.com/70"
-                  }
+                  src={cat?.img || cat?.image || "https://via.placeholder.com/70"}
                   alt={cat?.name}
-                  style={{
-                    width: 70,
-                    height: 70,
-                    objectFit: "cover",
-                    borderRadius: 12,
-                    marginBottom: 8,
-                  }}
+                  className="w-[70px] h-[70px] object-cover rounded-lg mb-2"
                 />
                 <div
-                  style={{
-                    fontSize: 15,
-                    color: "#444",
-                    fontWeight: 500,
-                    width: 70,
-                    textAlign: "center",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    marginTop: 4,
-                  }}
+                  className="text-[15px] text-[#444] font-medium w-[70px] text-center overflow-hidden text-ellipsis whitespace-nowrap mt-1"
                   title={cat?.name}
                 >
                   {cat?.name}
@@ -193,76 +106,34 @@ const Menu = () => {
         </div>
 
         {/* Bottom Navigation (fixed) */}
-        <div
-          style={{
-            position: "fixed",
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "#fff",
-            borderTopLeftRadius: 18,
-            borderTopRightRadius: 18,
-            boxShadow: "0 -2px 16px #0002",
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-            height: 70,
-            zIndex: 100,
-          }}
-        >
+        <div className="fixed left-0 right-0 bottom-0 bg-white rounded-t-[18px] shadow-[0_-2px_16px_#0002] flex justify-around items-center h-[70px] z-[100]">
           <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              color: "#111",
-              cursor: "pointer",
-            }}
+            className="flex flex-col items-center text-[#111] cursor-pointer"
             onClick={() => navigate("/menu")}
           >
             <BookOpen size={28} />
-            <span style={{ fontSize: 13, marginTop: 2, fontWeight: 500 }}>
-              Menu
-            </span>
+            <span className="text-[13px] mt-0.5 font-medium">Menu</span>
           </div>
           <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              color: "#888",
-              cursor: "pointer",
-            }}
+            className="flex flex-col items-center text-[#888] cursor-pointer"
             onClick={() => navigate("/home")}
           >
             <Home size={28} />
-            <span style={{ fontSize: 13, marginTop: 2 }}>Home</span>
+            <span className="text-[13px] mt-0.5">Home</span>
           </div>
           <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              color: "#888",
-              cursor: "pointer",
-            }}
+            className="flex flex-col items-center text-[#888] cursor-pointer"
             onClick={() => navigate("/call-waiter")}
           >
             <Contact size={28} />
-            <span style={{ fontSize: 13, marginTop: 2 }}>Call Waiter</span>
+            <span className="text-[13px] mt-0.5">Call Waiter</span>
           </div>
           <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              color: "#888",
-              cursor: "pointer",
-            }}
+            className="flex flex-col items-center text-[#888] cursor-pointer"
             onClick={() => navigate("/more")}
           >
             <MoreHorizontal size={28} />
-            <span style={{ fontSize: 13, marginTop: 2 }}>More</span>
+            <span className="text-[13px] mt-0.5">More</span>
           </div>
         </div>
       </div>
