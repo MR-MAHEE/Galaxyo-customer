@@ -7,11 +7,15 @@ import {
 import authSlice from "./reducers/authSlice";
 import customerSlice from "./reducers/customerSlice";
 import branchReducer from "./reducers/branchSlice";
+import tableReducer from "./reducers/tableSlice";
+import categoryReducer from "./reducers/categorySlice";
 
 const appReducer = combineReducers({
   auth: authSlice,
   customer: customerSlice,
   branch: branchReducer,
+  table: tableReducer,
+  category: categoryReducer,
 });
 
 // Root reducer with RESET_STATE functionality

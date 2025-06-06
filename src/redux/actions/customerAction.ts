@@ -13,7 +13,12 @@ export const createCustomer = createAsyncThunk(
   async (payload: CustomerPayload, { rejectWithValue }) => {
     try {
       const response = await axios.post('http://localhost:5000/api/v1/customers', payload);
-      return response.data;
+      console.log("response", response)
+      return {
+        status: response?.status,
+        data: response?.data,
+        token: response?.data?.token,
+      };
     } catch (error: any) {
       return rejectWithValue(error.response?.data || error.message);
     }

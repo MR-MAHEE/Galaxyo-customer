@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { createCustomer } from "../../../redux/actions/customerAction";
+import { getTableById } from "../../../redux/actions/tableActions";
 import { Form, Input, Button, InputNumber } from "antd"; // Ant Design imports
 import { useForm, Controller } from "react-hook-form"; // React Hook Form imports
 import { z } from "zod"; // Zod import
 import { zodResolver } from "@hookform/resolvers/zod"; // Zod Resolver import
+import { useNavigate, useParams } from "react-router-dom";
+import { resetCreateCustomerSuccess } from "../../../redux/reducers/customerSlice";
 
 // Define CustomerPayload interface locally for clarity
 interface CustomerPayload {
@@ -30,9 +33,19 @@ type FormData = z.infer<typeof schema>;
 
 const Customer = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error, customer } = useSelector(
+  const navigate = useNavigate();
+  const { createCustomer: createCustomerState } = useSelector(
     (state: RootState) => state.customer
   );
+
+  // Handle successful customer creation
+  useEffect(() => {
+    if (createCustomerState.success) {
+      // Navigate to the menu page after successful creation
+      navigate("/menu"); // Replace with your actual menu route
+      dispatch(resetCreateCustomerSuccess()); // Reset success state after navigation
+    }
+  }, [createCustomerState.success, navigate, dispatch]);
 
   // React Hook Form setup
   const {
@@ -48,8 +61,15 @@ const Customer = () => {
     },
   });
 
-  // Replace this with actual tableId logic if available
-  const tableId = "68261ed6f2cd67133c370d5e";
+    // Get tableId from URL
+  const { tableId } = useParams<{ tableId: string }>();
+
+  // Fetch table data on mount if tableId exists
+  useEffect(() => {
+    if (tableId) {
+      dispatch(getTableById(tableId));
+    }
+  }, [tableId, dispatch]);
 
   // Submit handler using React Hook Form's handleSubmit
   const onSubmit = (data: FormData) => {
@@ -60,6 +80,10 @@ const Customer = () => {
     } as CustomerPayload; // Explicitly cast to CustomerPayload
     dispatch(createCustomer(payload));
   };
+
+  // Access loading, error, and customer directly from the nested state
+  const { loading, data: customer, success } = createCustomerState;
+  const error = createCustomerState.data?.message || null; // Assuming error message might be in data or a separate error field
 
   return (
     <div className="min-h-screen bg-[#f2f6ff] flex items-center justify-center py-6 px-2">
@@ -192,7 +216,7 @@ const Customer = () => {
                 {error}
               </div>
             )}
-            {customer && !loading && (
+            {customer && success && !loading && (
               <div className="text-green-600 text-center text-sm mt-1">
                 Welcome, {customer?.name || "Guest"}!{" "}
                 {/* Use 'Guest' as fallback */}

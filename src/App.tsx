@@ -1,6 +1,6 @@
 import "./App.css";
 import { Suspense, lazy } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./components/ErrorFallback";
 import NotFound from "./pages/NotFound";
@@ -9,6 +9,8 @@ import BranchLogin from "./pages/Auth/BranchLogin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Menu from "./pages/App/Menu";
 import Home from "./pages/App/Home";
+import CallWaiter from "./pages/App/CallWaiter";
+import More from "./pages/App/More";
 
 function App() {
   return (
@@ -30,8 +32,11 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/menu" element={<Menu />} />
               <Route path="/home" element={<Home />} />
+              <Route path="/call-waiter" element={<CallWaiter />} />
+              <Route path="/more" element={<More />} />
+              {/* Redirect / to /menu */}
+              <Route path="/" element={<Navigate to="/menu" replace />} />
             </Route>
-
             {/* 404 Route */}
             <Route path="*" element={<NotFound />} />
           </Routes>

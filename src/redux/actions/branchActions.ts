@@ -8,7 +8,7 @@ export const getBranchById = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       const response = await axiosInstance.get(`/branches/${id}`);
-      return response.data;
+      return response.data?.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         return thunkAPI.rejectWithValue(getErrorMessage(error));
