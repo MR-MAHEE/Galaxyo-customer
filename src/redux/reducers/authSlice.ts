@@ -57,7 +57,7 @@ const authSlice = createSlice({
           // This needs to be handled outside the reducer, typically in the component
           // where the signIn action is dispatched, or using RTK query which handles chaining.
           // For now, we'll just update the state.
-          successToast("Sign in successful");
+          // successToast("Sign in successful");
         }
       })
       .addCase(signIn.rejected, (state, action: any) => {

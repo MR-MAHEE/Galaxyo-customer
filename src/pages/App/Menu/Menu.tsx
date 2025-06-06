@@ -3,7 +3,7 @@ import { Empty, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import BottomNavLayout from "../../../components/BottomNavLayout";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getCategoriesByBranchId } from "@/redux/actions/categoryActions";
 
@@ -22,6 +22,14 @@ const Menu = () => {
     success,
     data: categories,
   } = useSelector((state: RootState) => state.category.getCategoriesByBranchId);
+
+  const [search, setSearch] = useState("");
+
+  // Filter categories by name (case-insensitive)
+  const filteredCategories =
+    categories?.filter((cat: any) =>
+      cat?.name?.toLowerCase().includes(search.toLowerCase())
+    ) || [];
   const error = !loading && !success && categories.length === 0;
 
   useEffect(() => {
@@ -58,6 +66,8 @@ const Menu = () => {
             <input
               type="text"
               placeholder="Search item"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               style={{
                 border: "none",
                 outline: "none",
@@ -122,8 +132,19 @@ const Menu = () => {
             >
               <Empty description="No categories found" />
             </div>
+          ) : filteredCategories.length === 0 ? (
+            <div
+              style={{
+                gridColumn: "1 / -1",
+                textAlign: "center",
+                color: "#888",
+                padding: "40px 0",
+              }}
+            >
+              <Empty description="No categories found" />
+            </div>
           ) : (
-            categories.map((cat: any, i: number) => (
+            filteredCategories.map((cat: any, i: number) => (
               <div
                 key={cat.id || i}
                 style={{
