@@ -11,6 +11,7 @@ import Menu from "./pages/App/Menu";
 import Home from "./pages/App/Home";
 import CallWaiter from "./pages/App/CallWaiter";
 import More from "./pages/App/More";
+import Profile from "./pages/App/Profile";
 
 function App() {
   return (
@@ -34,8 +35,11 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/call-waiter" element={<CallWaiter />} />
               <Route path="/more" element={<More />} />
+
+              {/* Employee Routes */}
+              <Route path="/profile" element={<Profile />} />
               {/* Redirect / to /menu */}
-              <Route path="/" element={<Navigate to="/menu" replace />} />
+              <Route path="/" element={<Navigate to={localStorage.getItem("role") === "employee" ? "/profile" : "/menu"} replace />} />
             </Route>
             {/* 404 Route */}
             <Route path="*" element={<NotFound />} />

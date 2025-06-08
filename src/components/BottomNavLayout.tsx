@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { BookOpen, Home, Contact, MoreHorizontal } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { fetchUser } from "@/redux/actions/authActions";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
+import { getCustomer } from "@/redux/actions/customerAction";
 
 const navs = [
   { label: "Menu", icon: BookOpen, path: "/menu" },
@@ -18,7 +18,7 @@ const BottomNavLayout = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchUser());
+    dispatch(getCustomer());
   }, []);
 
   return (

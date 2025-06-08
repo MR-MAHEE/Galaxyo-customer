@@ -38,10 +38,14 @@ const Customer = () => {
     (state: RootState) => state.customer
   );
 
+  const { data: tableData } = useSelector((state: RootState) => state.table.getTableById);
+  console.log("tableData", tableData)
+
   // Handle successful customer creation
   useEffect(() => {
     if (createCustomerState.success) {
       // Navigate to the menu page after successful creation
+      localStorage.setItem("role", "customer");
       navigate("/menu"); // Replace with your actual menu route
       dispatch(resetCreateCustomerSuccess()); // Reset success state after navigation
     }
@@ -96,10 +100,10 @@ const Customer = () => {
           </div>
           <div>
             <div className="font-semibold text-lg md:text-xl text-gray-800">
-              Amba Family Bar & Restaurant
+              {tableData?.section?.branchId?.branchName ?? ""}
             </div>
             <div className="text-xs text-customGray mt-1">
-              163, Tilak Road, Vishrantwadi Pune
+              {tableData?.section?.branchId?.district ?? ""}, {tableData?.section?.branchId?.state ?? ""}
             </div>
           </div>
         </div>
@@ -107,7 +111,7 @@ const Customer = () => {
         <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col gap-4">
           <div className="text-center">
             <div className="font-bold text-xl md:text-2xl text-gray-800 mb-1">
-              Welcome to <span className="text-theme">[Restaurant_Name]</span>!
+              Welcome to <span className="text-theme">{tableData?.section?.branchId?.branchName ?? ""}</span>!
             </div>
             <div className="font-semibold text-lg md:text-xl text-gray-700 mb-2">
               Let's Get Started
@@ -180,6 +184,7 @@ const Customer = () => {
                   // Ant Design InputNumber requires value and onChange
                   <InputNumber
                     {...field}
+                    size="small"
                     min={1}
                     placeholder="No. of person / Guest"
                     className="rounded-lg px-4 py-2 transition w-full" // Apply existing styles and make it full width
@@ -211,11 +216,11 @@ const Customer = () => {
               {loading ? "Processing..." : "Enter the menu"}
             </Button>
 
-            {error && (
+            {/* {error && (
               <div className="text-red-500 text-center text-sm mt-1">
                 {error}
               </div>
-            )}
+            )} */}
             {customer && success && !loading && (
               <div className="text-green-600 text-center text-sm mt-1">
                 Welcome, {customer?.name || "Guest"}!{" "}

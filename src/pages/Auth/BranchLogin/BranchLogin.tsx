@@ -52,7 +52,8 @@ const BranchLogin = () => {
   useEffect(() => {
     if (signInState.success) {
       // Navigate to the desired page after successful login, e.g., the menu or dashboard
-      navigate("/menu"); // Replace with your desired route
+      localStorage.setItem("role", "employee");
+      navigate("/profile"); // Replace with your desired route
       dispatch(resetSignInSuccess()); // Reset success state after navigation
     }
   }, [signInState.success, navigate, dispatch]);
